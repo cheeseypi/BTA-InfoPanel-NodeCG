@@ -1,0 +1,32 @@
+{
+  "name": "bta-nodecg",
+  "version": "1.0.0",
+  "description": "BTA Widgets for NodeCG",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Skye Doto",
+  "license": "MIT",
+  "dependencies": {
+    "nodecg": "^2.5.3"
+  },
+  "nodecg": {
+    "dashboardPanels": [
+      {
+        "name": "sample-panel",
+        "title": "Example",
+        "width": 1,
+        "file": "sample-panel.html"
+      }
+    ],
+    "graphics": [
+      {
+        "file": "test-graphic.html",
+        "width": 1280,
+        "height": 720,
+	"singleInstance": false
+      }
+    ]
+  }
+}
