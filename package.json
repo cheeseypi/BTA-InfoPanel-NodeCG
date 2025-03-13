@@ -4,7 +4,8 @@
   "description": "BTA Widgets for NodeCG",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./node_modules/.bin/nodecg start"
   },
   "author": "Skye Doto",
   "license": "MIT",
@@ -25,7 +26,14 @@
         "file": "test-graphic.html",
         "width": 1280,
         "height": 720,
-	"singleInstance": false
+	      "singleInstance": false
+      },
+      {
+        "file": "reach-for-the-summit.html",
+        "title": "Reach for the Summit Tracker",
+        "width": 600,
+        "height": 800,
+	      "singleInstance": false
       }
     ]
   }

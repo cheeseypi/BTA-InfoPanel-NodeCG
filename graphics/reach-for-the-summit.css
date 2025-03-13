@@ -1,0 +1,48 @@
+.lineTop {
+    width:28px;
+    height: 0px;
+    position: absolute;
+    left: 7.5px;
+    top: 50px;
+    border: 1px solid black;
+}
+.lineBottom {
+    width:28px;
+    height: 0px;
+    position: absolute;
+    left: 7.5px;
+    top: 788px;
+    border: 1px solid black;
+}
+.lineMiddle {
+    height: 738px;
+    width: 0px;
+    position: absolute;
+    left: 21.5px;
+    top: 50px;
+    border: 1px solid black
+}
+
+.playerMarker {
+    background-color: black;
+    width: 20px;
+    height: 20px;
+    border-radius: 25px;
+    position: absolute;
+    left: 12.5px;
+    top: 777.5px;
+    transition: transform 2s ease-in-out;
+    /* transform: translateY(-737px) */
+}
+.playerTags {
+    position: absolute;
+    top: 50px;
+    left: 100px;
+    width: 500px;
+    height: 740px;
+}
+.playerTag {
+    background-color: black;
+    height: 30px;
+    width: 200px;
+}
