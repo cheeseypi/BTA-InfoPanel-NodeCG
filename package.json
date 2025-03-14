@@ -19,6 +19,18 @@
         "title": "Players",
         "width": 2,
         "file": "players.html"
+      },
+      {
+        "name": "division",
+        "title": "Division",
+        "width": 2,
+        "file": "division.html"
+      },
+      {
+        "name": "timer",
+        "title": "Timer",
+        "width": 2,
+        "file": "timer.html"
       }
     ],
     "graphics": [
@@ -30,10 +42,17 @@
       },
       {
         "file": "reach-for-the-summit.html",
-        "title": "Reach for the Summit Tracker",
+        "name": "Reach for the Summit Tracker",
         "width": 600,
         "height": 800,
 	      "singleInstance": false
+      },
+      {
+        "file": "timer/timer.html",
+        "name": "Timer",
+        "width": 400,
+        "height": 100,
+        "singleInstance": false
       }
     ]
   }

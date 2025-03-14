@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="timercontrols">
+        <form onsubmit="return false">
+            <input type="number" min="0" max="12" placeholder="H" id="timerEntryHrs" />
+            <input type="number" min="0" max="59" placeholder="M" id="timerEntryMns" />
+            <input type="number" min="0" max="59" placeholder="S" id="timerEntryScs" />
+            <button type="submit" onclick="submitTimer()">Enter Time</button>
+        </form>
+        <br>
+        <button type="button" onclick="timerDefault()">25 Mins.</button>
+        <button type="button" onclick="startTimer()">Start</button>
+        <button type="button" onclick="pauseTimer()">Pause</button>
+    </div>
+    <script>
+        const timer = nodecg.Replicant('timer', {defaultValue: {
+            isRunning: false,
+            duration: 0,
+            endTime: undefined
+        }, persistent:false})
+
+        const hours = document.getElementById("timerEntryHrs");
+        const minutes = document.getElementById("timerEntryMns");
+        const seconds = document.getElementById("timerEntryScs");
+        function startTimer() {
+            if (!timer.value.isRunning) {
+                timer.value = {
+                    endTime: new Date(new Date().getTime() + timer.value.duration * 1000),
+                    isRunning: true,
+                    duration: timer.value.duration
+                }
+            }
+            else {
+                timer.value = {
+                    duration: (new Date(timer.value.endTime).getTime() - new Date().getTime()) / 1000,
+                    isRunning: timer.value.isRunning,
+                    endTime: timer.value.endTime
+                }
+            }
+        }
+        function pauseTimer() {
+            if (timer.value.isRunning && timer.value.endTime) {
+                timer.value = {
+                    duration: (new Date(timer.value.endTime).getTime() - new Date().getTime()) / 1000,
+                    isRunning: false,
+                    endTime: undefined
+                }
+            }
+        }
+        function updateTimer(duration) {
+            console.log('timer replicant', timer)
+            if (!timer.value.isRunning) {
+                try {
+                    let [h, m, s] = duration.split(":");
+                    timer.value.duration = (h * 3600) + (m * 60) + (s * 1);
+                }
+                catch (err) { console.error(err) }
+            }
+        }
+        function submitTimer() {
+            if (!timer.value.isRunning && (hours.value || minutes.value || seconds.value)) {
+                let time = `${hours.value || 0}:${minutes.value || 0}:${seconds.value || 0}`;
+                updateTimer(time)
+                hours.value = "";
+                minutes.value = "";
+                seconds.value = "";
+            }
+        }
+        function timerDefault() {
+            updateTimer('0:30:0')
+        }
+    </script>
+</body>
+
+</html>

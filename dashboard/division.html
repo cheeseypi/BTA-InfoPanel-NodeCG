@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="divisionbuttons">
+        <button type="button" style="background-color: lightblue;" onclick="sendUpdateHeart('blue')">Blue</button>
+        <button type="button" style="background-color: lightcoral;" onclick="sendUpdateHeart('red')">Red</button>
+        <button type="button" style="background-color: lightyellow;" onclick="sendUpdateHeart('yellow')">Yellow</button>
+        <button type="button" style="background-color: lightgray;" onclick="sendUpdateHeart('cracked')">Cracked</button>
+        <button type="button" style="background-color: #ca8dca;" onclick="sendUpdateHeart('lunar')">Lunar</button>
+        <!-- <button type="button" style="background-color: lightblue;"
+            onclick="sendUpdateHeart('sapphire')">Sapphire</button>
+        <button type="button" style="background-color: lightcoral;" onclick="sendUpdateHeart('ruby')">Ruby</button>
+        <button type="button" style="background-color: lightgrey;" onclick="sendUpdateHeart('diamond')">Diamond</button> -->
+        <br>
+        <button type="button" style="background-color: red;" onclick="initiateDivision()">Initiate Division</button>
+    </div>
+    <script>
+        const division = nodecg.Replicant('division', { defaultValue: 'blue' })
+        function sendUpdateHeart(div) {
+            division.value = div
+        }
+        function initiateDivision() {
+            console.warn("Not implemented")
+        }
+    </script>
+</body>
+
+</html>
