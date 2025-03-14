@@ -15,10 +15,10 @@
   "nodecg": {
     "dashboardPanels": [
       {
-        "name": "sample-panel",
-        "title": "Example",
-        "width": 1,
-        "file": "sample-panel.html"
+        "name": "players",
+        "title": "Players",
+        "width": 2,
+        "file": "players.html"
       }
     ],
     "graphics": [

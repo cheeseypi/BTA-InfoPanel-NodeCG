@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head></head>
+    <body>
+        <form onsubmit="return false">
+            <input type="text" placeholder="Add Player" id="playeradder" autofocus />
+            <button type="submit" onclick="addPlayer()">Add</button>
+        </form>
+        <div class="players" id="players"></div>
+        <script>
+            const playerAdder = document.getElementById('playeradder')
+            const players = document.getElementById('players')
+            const playersReplicant = nodecg.Replicant('players', {defaultValue: {}})
+
+            playersReplicant.on('change', (newValue, oldValue) => {
+                let pls = []
+                for(let pl of object.entries(newValue)){
+                    let p = document.createElement('div')
+                    p.className = "playerItem"
+                    let n = document.createElement('p')
+                    n.innerText = pl[1]
+                    p.appendChild(n)
+                    let b = document.createElement('button')
+                    b.innerText = "🗑️"
+                    b.onclick = () => {
+                        removePlayer(pl[0])
+                    }
+                    p.appendChild(b)
+
+                    pls.push(p)
+                }
+                players.innerHTML = ''
+                pls.forEach(node => players.appendChild(node))
+            })
+
+            function addPlayer() {
+                console.log(playersReplicant.value)
+                playersReplicant.value[window.crypto.randomUUID()] = playerAdder.value
+                playerAdder.value = ''
+            }
+            function removePlayer(id) {
+                delete playersReplicant.value[id]
+            }
+        </script>
+    </body>
+</html>
