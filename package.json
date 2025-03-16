@@ -35,13 +35,7 @@
     ],
     "graphics": [
       {
-        "file": "test-graphic.html",
-        "width": 1280,
-        "height": 720,
-	      "singleInstance": false
-      },
-      {
-        "file": "reach-for-the-summit.html",
+        "file": "rfts/reach-for-the-summit.html",
         "name": "Reach for the Summit Tracker",
         "width": 600,
         "height": 800,

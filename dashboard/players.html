@@ -14,7 +14,7 @@
 
             playersReplicant.on('change', (newValue, oldValue) => {
                 let pls = []
-                for(let pl of object.entries(newValue)){
+                for(let pl of Object.entries(newValue)){
                     let p = document.createElement('div')
                     p.className = "playerItem"
                     let n = document.createElement('p')
