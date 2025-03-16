@@ -33,13 +33,14 @@
 
 .playerMarker {
     background-color: black;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border-radius: 25px;
     position: absolute;
-    left: 12.5px;
+    left: 11.5px;
     top: 777.5px;
     transition: transform 2s ease-in-out;
+    border: 2px solid black;
     /* transform: translateY(-737px) */
 }
 
@@ -50,7 +51,7 @@
     grid-template-columns: auto;
     position: absolute;
     top: 50px;
-    left: 100px;
+    left: 50px;
     width: 500px;
     height: 740px;
     align-content: start;
@@ -75,7 +76,7 @@
 }
 .player p{
     position: relative;
-    margin-left: 5px;
+    margin-left: 15px;
     z-index: 10;
 }
 .player .times{
@@ -91,12 +92,24 @@
 }
 .player .box{
     background-color: black;
-    width: 100%;
+    width: calc(100% - 10px);
+    border-left: 10px solid lightgray;
     height: 29px;
     position: absolute;
     top: 14px;
     z-index: 0;
 }
+/* .player .box::before{
+    content: "";
+    width: 0px;
+    height: 0px;
+    border-top: 29px solid;
+    border-left: 10px solid;
+    border-color: attr(data-color string);
+    position: absolute;
+    top: 0%;
+    left: 0%;
+} */
 .player .box::after{
     content: "";
     width: 0px;
