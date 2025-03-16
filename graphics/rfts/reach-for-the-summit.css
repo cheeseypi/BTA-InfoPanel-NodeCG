@@ -47,14 +47,14 @@
 .playerTags{
     font-family: Renogare, sans-serif;
     font-size: 36px;
-    display: grid;
+    /* display: grid;
     grid-template-columns: auto;
+    align-content: start; */
     position: absolute;
     top: 50px;
     left: 50px;
     width: 500px;
     height: 740px;
-    align-content: start;
 }
 
 .player{
@@ -70,8 +70,10 @@
                  -2px 2px 0 black,
                  -2px -2px 0 black;
     text-align: right;
-    position: relative;
+    position: absolute;
+    transition: transform 2s ease-in-out;
     left: 0%;
+    top: 0;
     width: max-content;
 }
 .player p{

@@ -11,13 +11,8 @@
     <div class="lineBottom"></div>
 
     <div class="playerMarkers" id="markers">
-        <div class="playerMarker"></div>
     </div>
     <div class="playerTags" id="players">
-        <div class="player">
-            <p>test</p>
-            <div class="box"></div>
-        </div>
     </div>
 
     <script>
@@ -31,6 +26,9 @@
         scoresReplicant.on('change', (newValue, oldValue) => {
             updateScores(newValue)
         })
+        colorReplicant.on('change', (newValue, oldValue) => {
+            updateColors(newValue)
+        })
 
         updatePlayers(playersReplicant.value || {})
         updateScores(scoresReplicant.value || {})
@@ -39,14 +37,6 @@
             let nodes = [];
             let markerNodes = [];
             Object.entries(newObj).forEach(([id, player]) => {
-                let playerColor = (colorReplicant.value || {})[id]
-                if(!playerColor && colorReplicant.value) {
-                    playerColor = 'teal' //TODO generate
-                    colorReplicant.value[id] = playerColor
-                }
-                else if(!playerColor) {
-                    playerColor = 'gray'
-                }
                 let div = document.createElement('div');
                 div.className = "player";
                 div.id = id + '-p'
@@ -55,7 +45,7 @@
                 p.innerText = p.innerText.replace(/ /g, '\u00a0')//NBSP
                 div.appendChild(p);
                 let bg = document.createElement('div');
-                bg.style.borderLeftColor = playerColor;
+                bg.id = id+'-box'
                 bg.className = "box";
                 div.appendChild(bg);
                 nodes.push(div)
@@ -63,7 +53,6 @@
                 let marker = document.createElement('div')
                 marker.className = 'playerMarker'
                 marker.id = id
-                marker.style.backgroundColor = playerColor
                 markerNodes.push(marker)
             });
             let playerNode = document.getElementById('players');
@@ -72,12 +61,34 @@
             let markerNode = document.getElementById('markers');
             markerNode.innerHTML = '';
             markerNodes.forEach(node => markerNode.appendChild(node));
+
+            updateColors(colorReplicant.value)
         }
         function updateScores(newScores) {
-            Object.entries(newScores).forEach(([id, score]) => {
+            sortedPlayers = Object.entries(newScores).sort(([_, scoreA], [__, scoreB]) => {
+                return scoreB - scoreA;
+            })
+            let alignment = 0
+            sortedPlayers.forEach(([id, score]) => {
                 let marker = document.getElementById(id);
                 if(marker){
                     marker.style.transform = "translateY("+Math.max((score/2500.0)*-737, -737)+"px)"
+                }
+
+                let player = document.getElementById(id+'-p');
+                player.style.transform = "translateY("+alignment+"px)"
+                alignment+=50;
+            })
+        }
+        function updateColors(newColors) {
+            Object.entries(newColors).forEach(([id, color]) => {
+                let box = document.getElementById(id+'-box');
+                if(box){
+                    box.style.borderLeftColor = color
+                }
+                let marker = document.getElementById(id);
+                if(marker){
+                    marker.style.backgroundColor = color
                 }
             })
         }

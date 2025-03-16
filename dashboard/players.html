@@ -11,6 +11,8 @@
             const playerAdder = document.getElementById('playeradder')
             const players = document.getElementById('players')
             const playersReplicant = nodecg.Replicant('players', {defaultValue: {}})
+            const colorReplicant = nodecg.Replicant('colors', {defaultValue: {}})
+            const scoresReplicant = nodecg.Replicant('score', {defaultValue: {}})
 
             playersReplicant.on('change', (newValue, oldValue) => {
                 let pls = []
@@ -20,6 +22,12 @@
                     let n = document.createElement('p')
                     n.innerText = pl[1]
                     p.appendChild(n)
+                    let r = document.createElement('button')
+                    r.innerText = "♺"
+                    r.onclick = () => {
+                        rerollColor(pl[0])
+                    }
+                    p.appendChild(r)
                     let b = document.createElement('button')
                     b.innerText = "🗑️"
                     b.onclick = () => {
@@ -33,13 +41,32 @@
                 pls.forEach(node => players.appendChild(node))
             })
 
+            function randomColorVal(){
+                let randResult = Math.floor(Math.random()*211 + 20); //Random number between 20 and 230
+                if(randResult > 100 && randResult < 150) { // chance to reroll middle colors
+                    if(Math.random() < 0.6){
+                        return randomColorVal();
+                    }
+                }
+                return randResult;
+            }
+
             function addPlayer() {
-                console.log(playersReplicant.value)
-                playersReplicant.value[window.crypto.randomUUID()] = playerAdder.value
+                let id = window.crypto.randomUUID()
+                playersReplicant.value[id] = playerAdder.value
                 playerAdder.value = ''
+
+                rerollColor(id)
+
+                scoresReplicant.value[id] = 0
+            }
+            function rerollColor(id) {
+                colorReplicant.value[id] = 'rgb('+randomColorVal()+','+randomColorVal()+','+randomColorVal()+')'
             }
             function removePlayer(id) {
                 delete playersReplicant.value[id]
+                delete colorReplicant.value[id]
+                delete scoresReplicant.value[id]
             }
         </script>
     </body>
