@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>BTA Division Panel</title>
+    <link rel="stylesheet" type="text/css" href="/base.css">
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type="text/css">
+        @font-face {
+            font-family: Renogare;
+            src: url("res/Renogare-Regular.otf") format("opentype");
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Renogare, sans-serif;
+            font-size: 40px;
+        }
+
+        .timerbox {
+            position: absolute;
+            width: 315px;
+            height: 60px;
+            line-height: 39px;
+            color: white;
+            text-shadow: 0px 2px 0 black,
+                0px -2px 0 black,
+                2px 0px 0 black,
+                -2px 0px 0 black,
+                2px 2px 0 black,
+                2px -2px 0 black,
+                -2px 2px 0 black,
+                -2px -2px 0 black;
+            display: grid;
+            grid-template-columns: 20% 80%;
+            grid-template-rows: 60% 40%;
+            text-align: right;
+        }
+
+        .timerbox p {
+            z-index: 10;
+        }
+
+        .FWNum {
+            display: inline-block;
+            width: 30px;
+            text-align: center;
+        }
+
+        .timerbox img {
+            z-index: 10;
+        }
+
+        .backgroundbox {
+            background-color: black;
+            width: 100%;
+            height: 40px;
+            position: absolute;
+            top: 8px;
+            z-index: 0;
+        }
+
+        .backgroundbox::after {
+            content: "";
+            width: 0px;
+            height: 0px;
+            border-top: 40px solid black;
+            border-right: 21px solid transparent;
+            position: absolute;
+            top: 0%;
+            left: 100%;
+        }
+
+        #heartImage {
+            height: 50px;
+            display: inline;
+            grid-row-start: span 2;
+            margin: auto;
+        }
+
+        #divisionheader {
+            font-size: 28px;
+            line-height: 38px;
+            /* color: #989898; */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="timerbox">
+        <img id="heartImage" src="res/blueheart.gif" />
+        <p id="divisionheader">Blue Division</p>
+        <div class="backgroundbox"></div>
+    </div>
+    <script type="text/javascript">
+        const hearts = {
+            blue: "res/blueheart.gif",
+            red: "res/redheart.gif",
+            yellow: "res/yellowheart.gif",
+            silver: "res/silverheart.gif",
+            cracked: "res/fakeheart.gif",
+            lunar: "res/BlackHeart.gif",
+            sapphire: "res/sapphireheart.gif",
+            ruby: "res/rubyheart.gif",
+            diamond: "res/diamondheart.gif",
+        }
+        const divisionTitles = {
+            blue: "Blue Division",
+            red: "Red Division",
+            yellow: "Yellow Division",
+            silver: "Silver Division",
+            rainbow: "Rainbow Division",
+            cracked: "Cracked Division",
+            lunar: "Lunar Division",
+            sapphire: "Sapphire Division",
+            ruby: "Ruby Division",
+            diamond: "Diamond Division",
+        }
+        const division = nodecg.Replicant('division')
+
+        division.on('change', (newValue, oldValue) => {
+            updateHeart(newValue)
+        })
+
+        function updateHeart(heart) {
+            document.getElementById("heartImage").src = hearts[heart] || hearts.silver;
+            document.getElementById("divisionheader").innerText = divisionTitles[heart] || '';
+        }
+    </script>
+</body>
+
+</html>

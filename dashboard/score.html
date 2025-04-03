@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="players" id="players"></div>
+    <button onclick="saveScores()">Save</button>
+    <script>
+        const players = document.getElementById('players')
+        const playersReplicant = nodecg.Replicant('players', { defaultValue: {} })
+        const scoresReplicant = nodecg.Replicant('score', { defaultValue: {} })
+
+        playersReplicant.on('change', (newValue, oldValue) => {
+            let pls = []
+            for (let pl of Object.entries(newValue)) {
+                let p = document.createElement('div')
+                p.className = "playerItem"
+                let n = document.createElement('p')
+                n.innerText = pl[1]
+                p.appendChild(n)
+                let curScore = document.createElement('p')
+                curScore.id = "sc-" + pl[0]
+                p.appendChild(curScore)
+                let s = document.createElement('input')
+                s.contentEditable = false;
+                s.value = 0;
+                s.className = "playerScoreInput"
+                s.id = pl[0];
+                let minus = document.createElement('button')
+                minus.className = "scorebutton"
+                minus.innerText = "-"
+                minus.onclick = () => {
+                    s.value = parseInt(s.value) - 100
+                }
+                let plus = document.createElement('button')
+                plus.className = "scorebutton"
+                plus.innerText = "+"
+                plus.onclick = () => {
+                    s.value = parseInt(s.value) + 100
+                }
+                p.appendChild(minus)
+                p.appendChild(s)
+                p.appendChild(plus)
+
+                pls.push(p)
+            }
+            players.innerHTML = ''
+            pls.forEach(node => players.appendChild(node))
+
+            scoresReplicant.on('change', (newValue, oldValue) => {
+                for(let scObj of Object.entries(newValue)) {
+                    let score = document.getElementById('sc-'+scObj[0])
+                    score.innerText = scObj[1]
+                }
+            })
+        })
+
+
+        function saveScores() {
+            let playerScoreDiffs = document.getElementsByClassName('playerScoreInput')
+            let playerScores = scoresReplicant.value
+            let newScore = {}
+            for(let playerScore of playerScoreDiffs) {
+                let id = playerScore.id
+                newScore[id] = playerScores[id] + parseInt(playerScore.value)
+                playerScore.value = 0
+            }
+            scoresReplicant.value = newScore
+        }
+    </script>
+</body>
+
+</html>

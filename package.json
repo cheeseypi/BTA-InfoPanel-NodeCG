@@ -31,6 +31,12 @@
         "title": "Timer",
         "width": 2,
         "file": "timer.html"
+      },
+      {
+        "name": "score",
+        "title": "Scores",
+        "width": 2,
+        "file": "score.html"
       }
     ],
     "graphics": [
@@ -40,6 +46,13 @@
         "width": 600,
         "height": 800,
 	      "singleInstance": false
+      },
+      {
+        "file": "division/division.html",
+        "name": "Division",
+        "width": 400,
+        "height": 100,
+        "singleInstance": false
       },
       {
         "file": "timer/timer.html",
