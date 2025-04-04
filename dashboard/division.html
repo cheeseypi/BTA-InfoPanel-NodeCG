@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <div class="divisionbuttons">
+    <div class="divisionbuttons" id="divisionbuttons">
         <button type="button" style="background-color: lightblue;" onclick="sendUpdateHeart('blue')">Blue</button>
         <button type="button" style="background-color: lightcoral;" onclick="sendUpdateHeart('red')">Red</button>
         <button type="button" style="background-color: lightyellow;" onclick="sendUpdateHeart('yellow')">Yellow</button>
@@ -18,16 +18,100 @@
             onclick="sendUpdateHeart('sapphire')">Sapphire</button>
         <button type="button" style="background-color: lightcoral;" onclick="sendUpdateHeart('ruby')">Ruby</button>
         <button type="button" style="background-color: lightgrey;" onclick="sendUpdateHeart('diamond')">Diamond</button> -->
-        <br>
-        <button type="button" style="background-color: red;" onclick="initiateDivision()">Initiate Division</button>
     </div>
+    <br>
+    <button type="button" style="background-color: red;" onclick="initiateDivision()">Initiate Division</button>
     <script>
+        const divisionDefinitions = {
+            blue: { color: 'lightblue'},
+            red: { color: 'lightcoral'},
+            yellow: { color: 'lightyellow'},
+            cracked: { color: 'lightgray'},
+            lunar: { color: '#ca8dca'},
+            sapphire: {color: 'lightblue'},
+            ruby: {color: 'lightcoral'},
+            diamond: {color: 'lightgrey'}
+        }
         const division = nodecg.Replicant('division', { defaultValue: 'blue' })
+        const season = nodecg.Replicant('season')
+        const players = nodecg.Replicant('players')
+        const colors = nodecg.Replicant('colors')
+        const scores = nodecg.Replicant('score')
+        const flagsReplicant = nodecg.Replicant('flag', {defaultValue: {}})
+
+        season.on('change', (newValue, oldValue) => {
+            let divisions = document.getElementById('divisionbuttons')
+            divButtons = []
+            for(let division of newValue.divisions){
+                let button = document.createElement('button')
+                button.style.textTransform = 'capitalize'
+                button.style.backgroundColor = divisionDefinitions[division]?.color || 'gray'
+                button.innerText = division
+                button.onclick = () => {
+                    sendUpdateHeart(division)
+                }
+                divButtons.push(button)
+            }
+            divisions.replaceChildren(...divButtons)
+        })
         function sendUpdateHeart(div) {
             division.value = div
         }
+
+        function randomColorVal(){
+            let randResult = Math.floor(Math.random()*211 + 20); //Random number between 20 and 230
+            if(randResult > 100 && randResult < 150) { // chance to reroll middle colors
+                if(Math.random() < 0.6){
+                    return randomColorVal();
+                }
+            }
+            return randResult;
+        }
+        function addPlayer(name, color) {
+            let id = window.crypto.randomUUID()
+            players.value[id] = name
+
+            if(color) {
+                setColor(id, color)
+            }
+            else {
+                rerollColor(id)
+            }
+
+            scores.value[id] = 0
+            flagsReplicant.value[id] = false
+        }
+        function rerollColor(id) {
+            setColor(id, 'rgb('+randomColorVal()+','+randomColorVal()+','+randomColorVal()+')')
+        }
+        function setColor(id, color) {
+            colors.value[id] = color
+        }
+        const defaultColors = [
+            '#dd2222',
+            '#22dd22',
+            '#2222dd',
+            '#801d69',
+            '#448296',
+            '#5b7c35',
+            '#ffff00',
+            '#ff00ff',
+            '#00ffff',
+        ]
         function initiateDivision() {
-            console.warn("Not implemented")
+            players.value = {}
+            colors.value = {}
+            scores.value = {}
+            flagsReplicant.value = {}
+            let ind = 0;
+            for(let player of season.value.players[division.value]) {
+                let color = undefined
+                if(ind < defaultColors.length){
+                    color = defaultColors[ind]
+                }
+                addPlayer(player, color)
+                ind++
+            }
         }
     </script>
 </body>

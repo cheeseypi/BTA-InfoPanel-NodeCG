@@ -13,14 +13,49 @@
             const playersReplicant = nodecg.Replicant('players', {defaultValue: {}})
             const colorReplicant = nodecg.Replicant('colors', {defaultValue: {}})
             const scoresReplicant = nodecg.Replicant('score', {defaultValue: {}})
+            const flagsReplicant = nodecg.Replicant('flag', {defaultValue: {}})
+
+            flagsReplicant.on('change', (newValue, oldValue) => {
+                let playerScoreList = Object.entries(newValue)
+                playerScoreList.forEach(([id, score]) => {
+                    let flagbutton = document.getElementById('flagbutton-'+id);
+                    let fDisp = document.getElementById('flagIcon-'+id);
+
+                    let isFlagged = newValue[id]
+                    if(flagbutton){
+                        flagbutton.style.display = 'inline'
+                        flagbutton.onclick = () => {
+                            if(isFlagged){
+                                flagsReplicant.value[id] = false
+                            }
+                            else{
+                                flagsReplicant.value[id] = true
+                            }
+                        }
+                    }
+                    if(fDisp){
+                        fDisp.style.display = isFlagged ? 'inline' : 'none'
+                    }
+                })
+            })
 
             playersReplicant.on('change', (newValue, oldValue) => {
                 let pls = []
                 for(let pl of Object.entries(newValue)){
+                    let isFlagged = undefined
+                    if(flagsReplicant.value){
+                        isFlagged = !!(flagsReplicant.value[pl[0]])
+                    }
+
                     let p = document.createElement('div')
                     p.className = "playerItem"
                     let n = document.createElement('p')
                     n.innerText = pl[1]
+                    let fDisp = document.createElement('span')
+                    fDisp.innerText = ' 🚩'
+                    fDisp.id = 'flagIcon-'+pl[0]
+                    fDisp.display = isFlagged ? 'inline' : 'none'
+                    n.appendChild(fDisp)
                     p.appendChild(n)
                     let r = document.createElement('button')
                     r.innerText = "🔁"
@@ -34,6 +69,19 @@
                         removePlayer(pl[0])
                     }
                     p.appendChild(b)
+                    let f = document.createElement('button');
+                    f.innerText = "🚩";
+                    f.id = 'flagbutton-'+pl[0];
+                    f.style.display = isFlagged !== undefined ? 'inline' : 'none';
+                    f.onclick = () => {
+                        if(isFlagged){
+                            flagsReplicant.value[pl[0]] = false
+                        }
+                        else{
+                            flagsReplicant.value[pl[0]] = true
+                        }
+                    }
+                    p.appendChild(f)
 
                     pls.push(p)
                 }
@@ -59,6 +107,7 @@
                 rerollColor(id)
 
                 scoresReplicant.value[id] = 0
+                flagsReplicant.value[id] = false
             }
             function rerollColor(id) {
                 colorReplicant.value[id] = 'rgb('+randomColorVal()+','+randomColorVal()+','+randomColorVal()+')'
@@ -67,6 +116,7 @@
                 delete playersReplicant.value[id]
                 delete colorReplicant.value[id]
                 delete scoresReplicant.value[id]
+                delete flagsReplicant.value[id]
             }
         </script>
     </body>

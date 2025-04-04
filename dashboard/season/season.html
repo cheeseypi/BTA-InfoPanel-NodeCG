@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="seasonSummary">
+      <p id="name"></p>
+      <p id="divisions"></p>
+      <p id="players"></p>
+    </div>
+    <hr>
+    <div id="seasonSelector"></div>
+    <script type="module">
+      import { seasons } from "./definitions.js";
+      const season = nodecg.Replicant("season", {
+        defaultValue: {
+          name: "Placeholder",
+          divisions: [],
+          players: {},
+          meta: { season: {} },
+        },
+      });
+
+      season.on("change", (newValue, oldValue) => {
+        document.getElementById("name").innerText = newValue.name;
+        document.getElementById("divisions").innerText =
+          "Divisions: " + newValue.divisions.length;
+        let pCount = 0;
+        for (let plist of Object.values(newValue.players)) {
+          pCount += plist.length;
+        }
+        document.getElementById("players").innerText = "Players: " + pCount;
+      });
+
+      let seasonElements = [];
+      for (let seasonDef of seasons) {
+        let cont = document.createElement("div");
+
+        let name = document.createElement("p");
+        name.innerText = seasonDef.name;
+        cont.appendChild(name);
+        let button = document.createElement("button");
+        button.onclick = () => {
+          selectSeason(seasonDef);
+        };
+        button.innerText = "Select";
+        cont.appendChild(button);
+
+        seasonElements.push(cont);
+      }
+      document.getElementById("seasonSelector").replaceChildren(...seasonElements);
+
+      function selectSeason(seasonDefinition) {
+        season.value = seasonDefinition;
+      }
+    </script>
+  </body>
+</html>

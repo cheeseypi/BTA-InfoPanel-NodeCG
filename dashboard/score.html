@@ -51,13 +51,15 @@
             }
             players.innerHTML = ''
             pls.forEach(node => players.appendChild(node))
+        })
 
-            scoresReplicant.on('change', (newValue, oldValue) => {
-                for(let scObj of Object.entries(newValue)) {
-                    let score = document.getElementById('sc-'+scObj[0])
+        scoresReplicant.on('change', (newValue, oldValue) => {
+            for(let scObj of Object.entries(newValue)) {
+                let score = document.getElementById('sc-'+scObj[0])
+                if(score) {
                     score.innerText = scObj[1]
                 }
-            })
+            }
         })
 
 

@@ -11,7 +11,7 @@
     height: 0px;
     position: absolute;
     left: 7.5px;
-    top: 50px;
+    top: 33px;
     border: 1px solid black;
 }
 .lineBottom {
@@ -19,15 +19,15 @@
     height: 0px;
     position: absolute;
     left: 7.5px;
-    top: 788px;
+    top: 533px;
     border: 1px solid black;
 }
 .lineMiddle {
-    height: 738px;
+    height: 500px;
+    top: 33px;
     width: 0px;
     position: absolute;
     left: 21.5px;
-    top: 50px;
     border: 1px solid black
 }
 
@@ -38,7 +38,7 @@
     border-radius: 25px;
     position: absolute;
     left: 11.5px;
-    top: 777.5px;
+    top: 522.5px;
     transition: transform 2s ease-in-out;
     border: 2px solid black;
     /* transform: translateY(-737px) */
@@ -51,7 +51,7 @@
     grid-template-columns: auto;
     align-content: start; */
     position: absolute;
-    top: 50px;
+    top: 33px;
     left: 50px;
     width: 500px;
     height: 740px;
@@ -121,4 +121,12 @@
     position: absolute;
     top: 0%;
     left: 100%;
+}
+
+#flag {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    top: 0px;
+    left: 19px;
 }

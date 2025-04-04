@@ -37,6 +37,12 @@
         "title": "Scores",
         "width": 2,
         "file": "score.html"
+      },
+      {
+        "name": "season",
+        "title": "Season",
+        "width": 2,
+        "file": "season/season.html"
       }
     ],
     "graphics": [

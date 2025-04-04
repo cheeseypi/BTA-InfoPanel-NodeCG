@@ -10,6 +10,7 @@
     <div class="lineMiddle"></div>
     <div class="lineBottom"></div>
 
+    <img src="res/flag.png" alt="" id="flag" style="display: none;">
     <div class="playerMarkers" id="markers">
     </div>
     <div class="playerTags" id="players">
@@ -19,6 +20,7 @@
         const playersReplicant = nodecg.Replicant('players')
         const scoresReplicant = nodecg.Replicant('score', {defaultValue: {}})
         const colorReplicant = nodecg.Replicant('colors', {defaultValue: {}})
+        const flagsReplicant = nodecg.Replicant('flag', {defaultValue: {}})
 
         playersReplicant.on('change', (newValue, oldValue) => {
             updatePlayers(newValue)
@@ -29,9 +31,19 @@
         colorReplicant.on('change', (newValue, oldValue) => {
             updateColors(newValue)
         })
+        flagsReplicant.on('change', (newValue, oldValue) => {
+            flag = document.getElementById('flag')
+            console.log(newValue)
+            if(Object.values(newValue).some(x => x)){
+                flag.style.display = 'block'
+            }
+            else {
+                flag.style.display = 'none'
+            }
+        })
 
-        updatePlayers(playersReplicant.value || {})
-        updateScores(scoresReplicant.value || {})
+        // updatePlayers(playersReplicant.value || {})
+        // updateScores(scoresReplicant.value || {})
 
         function updatePlayers(newObj) {
             let nodes = [];
@@ -43,7 +55,15 @@
                 let p = document.createElement('p');
                 p.innerText = player;
                 p.innerText = p.innerText.replace(/ /g, '\u00a0')//NBSP
+                p.style.display = 'inline'
                 div.appendChild(p);
+                let meters = document.createElement('p');
+                meters.className = "metersNumber";
+                meters.id = 'meters-'+id
+                meters.innerText = '';
+                meters.style.display = 'inline'
+                meters.style.fontSize = '16px'
+                div.appendChild(meters);
                 let bg = document.createElement('div');
                 bg.id = id+'-box'
                 bg.className = "box";
@@ -62,7 +82,7 @@
             markerNode.innerHTML = '';
             markerNodes.forEach(node => markerNode.appendChild(node));
 
-            updateColors(colorReplicant.value)
+            // updateColors(colorReplicant.value)
         }
         function updateScores(newScores) {
             sortedPlayers = Object.entries(newScores).sort(([_, scoreA], [__, scoreB]) => {
@@ -71,8 +91,12 @@
             let alignment = 0
             sortedPlayers.forEach(([id, score]) => {
                 let marker = document.getElementById(id);
+                let meters = document.getElementById('meters-'+id)
                 if(marker){
-                    marker.style.transform = "translateY("+Math.max((score/2500.0)*-737, -737)+"px)"
+                    marker.style.transform = "translateY("+Math.max((score/2500.0)*-500, -500)+"px)"
+                }
+                if(meters){
+                    meters.innerText = score + '\u00a0M'
                 }
 
                 let player = document.getElementById(id+'-p');
